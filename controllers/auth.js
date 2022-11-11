@@ -1,15 +1,32 @@
-exports.register = (reg, res, next) => {
-    res.send("Register Route");
+const User = require('../models/User');
+
+exports.register = async (req, res, next) => {
+    const { username, email, password } = req.body;
+
+    try {
+        const user = await User.create({
+            username, email, password
+        });
+        res.status(201).json({
+            success: true,
+            user
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message,
+        });
+    }
 };
 
-exports.login = (reg, res, next) => {
+exports.login = (req, res, next) => {
     res.send("Login Route");
 };
 
-exports.forgotpassword = (reg, res, next) => {
+exports.forgotpassword = (req, res, next) => {
     res.send("Forgot Password Route");
 };
 
-exports.resetpassword = (reg, res, next) => {
+exports.resetpassword = (req, res, next) => {
     res.send("Reset Password");
 };
